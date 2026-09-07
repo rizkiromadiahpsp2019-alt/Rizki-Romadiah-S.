@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TKA Bahasa Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#23324D;
+    --ink-soft:#4C5A73;
+    --paper:#FBFAF6;
+    --panel:#FFFFFF;
+    --rule:#D8D2C4;
+    --gold:#C99A3B;
+    --gold-soft:#F1E4C6;
+    --success:#3F7D5C;
+    --success-bg:#E7F1EB;
+    --error:#B5453A;
+    --error-bg:#F7E9E7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:680px;
+    margin:0 auto;
+    padding:36px 24px 80px;
+  }
+  header.masthead{
+    text-align:center;
+    padding-bottom:22px;
+    border-bottom:3px double var(--rule);
+    margin-bottom:28px;
+  }
+  header.masthead .kop{
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  header.masthead h1{
+    font-family:'Lora',serif;
+    font-weight:700;
+    font-size:28px;
+    margin:0 0 6px;
+  }
+  header.masthead .sub{
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:24px;
+  }
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:var(--ink);
+  }
+  .field input{
+    width:100%;
+    padding:10px 12px;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .field input:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px var(--gold-soft);
+  }
+  .btn{
+    display:inline-block;
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:12px 22px;
+    font-size:14.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    border-radius:3px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .btn:hover{background:#354566;}
+  .btn:disabled{background:#B8BFCC;cursor:not-allowed;}
+  .btn-block{width:100%;text-align:center;}
+  .note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:14px;
+    line-height:1.5;
+  }
+  .progress-wrap{
+    position:sticky;
+    top:0;
+    background:var(--paper);
+    padding:10px 0 14px;
+    z-index:5;
+  }
+  .progress-bar{
+    height:6px;
+    width:100%;
+    background:var(--gold-soft);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--gold);
+    transition:width .2s ease;
+  }
+  .progress-label{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .question{
+    border:1px solid var(--rule);
+    border-radius:4px;
+    padding:18px 18px 16px;
+    margin-bottom:16px;
+    background:var(--panel);
+  }
+  .question .passage{
+    font-family:'Lora',serif;
+    font-style:italic;
+    font-size:14px;
+    line-height:1.65;
+    color:var(--ink-soft);
+    background:var(--paper);
+    border-left:3px solid var(--gold);
+    padding:10px 14px;
+    margin-bottom:14px;
+    border-radius:2px;
+  }
+  .qhead{
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .qnum{
+    flex:none;
+    width:26px;
+    height:26px;
+    border:1px solid var(--ink);
+    border-radius:3px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12.5px;
+    font-weight:700;
+  }
+  .qtext{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.5;
+    padding-top:2px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:9px 12px;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    cursor:pointer;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .option:hover{border-color:var(--gold);}
+  .option.selected{
+    border-color:var(--gold);
+    background:var(--gold-soft);
+  }
+  .option input{margin:3px 0 0;flex:none;}
+  .letter{
+    flex:none;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    border:1px solid var(--ink-soft);
+    font-size:11px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .option.selected .letter{
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink);
+  }
+  .submit-bar{
+    text-align:center;
+    margin-top:24px;
+  }
+  .center{text-align:center;}
+  .score-big{
+    font-family:'Lora',serif;
+    font-weight:700;
+    font-size:56px;
+    margin:6px 0;
+  }
+  .score-sub{
+    color:var(--ink-soft);
+    font-size:14px;
+    margin-bottom:20px;
+  }
+  .identity-row{
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin-bottom:22px;
+    flex-wrap:wrap;
+  }
+  .identity-row b{color:var(--ink);}
+  table.review{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+    margin-top:10px;
+  }
+  table.review th, table.review td{
+    border:1px solid var(--rule);
+    padding:7px 8px;
+    text-align:left;
+  }
+  table.review th{
+    background:var(--paper);
+    font-weight:600;
+  }
+  .tag{
+    display:inline-block;
+    padding:2px 8px;
+    border-radius:10px;
+    font-size:11.5px;
+    font-weight:700;
+  }
+  .tag.ok{background:var(--success-bg);color:var(--success);}
+  .tag.no{background:var(--error-bg);color:var(--error);}
+  .lockbox{
+    text-align:center;
+    padding:30px 20px;
+  }
+  .lockbox .icon{font-size:34px;margin-bottom:10px;}
+  .hidden{display:none;}
+  .warn{
+    background:var(--error-bg);
+    color:var(--error);
+    padding:10px 14px;
+    border-radius:3px;
+    font-size:13px;
+    margin-bottom:16px;
+  }
+  .loading{
+    text-align:center;
+    padding:60px 0;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <header class="masthead">
+    <div class="kop">TES KEMAMPUAN AKADEMIK</div>
+    <h1>Bahasa Indonesia</h1>
+    <div class="sub">20 Soal Objektif &middot; Waktu bebas &middot; Satu kali pengerjaan per nama</div>
+  </header>
+
+  <div id="loading" class="loading">Memuat...</div>
+
+  <!-- LAYAR IDENTITAS -->
+  <div id="screen-identity" class="card hidden">
+    <div id="identity-warn"></div>
+    <div class="field">
+      <label for="inp-nama">Nama lengkap</label>
+      <input id="inp-nama" type="text" placeholder="Tulis nama lengkapmu" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="inp-kelas">Kelas</label>
+      <input id="inp-kelas" type="text" placeholder="Contoh: XI IPA 2" autocomplete="off">
+    </div>
+    <button class="btn btn-block" id="btn-start">Mulai Kuis</button>
+    <div class="note">Kuis ini hanya dapat dikerjakan satu kali untuk setiap nama. Data nama, kelas, dan skor akan tersimpan dan dapat dilihat oleh pengguna lain yang membuka kuis ini. Pastikan menulis nama dengan benar sebelum memulai.</div>
+  </div>
+
+  <!-- LAYAR SUDAH PERNAH MENGERJAKAN -->
+  <div id="screen-locked" class="card hidden">
+    <div class="lockbox">
+      <div class="icon">🔒</div>
+      <h2 style="font-family:'Lora',serif;margin:0 0 8px;">Kuis sudah pernah dikerjakan</h2>
+      <p id="locked-detail" style="color:var(--ink-soft);font-size:14px;line-height:1.6;"></p>
+      <button class="btn" id="btn-back">Kembali</button>
+    </div>
+  </div>
+
+  <!-- LAYAR KUIS -->
+  <div id="screen-quiz" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+      <div class="progress-label">
+        <span id="progress-text">0 dari 20 dijawab</span>
+        <span id="progress-name"></span>
+      </div>
+    </div>
+    <div id="questions-container"></div>
+    <div class="submit-bar">
+      <button class="btn" id="btn-submit">Kumpulkan Jawaban</button>
+      <div class="note" id="submit-note"></div>
+    </div>
+  </div>
+
+  <!-- LAYAR HASIL -->
+  <div id="screen-result" class="card hidden">
+    <div class="center">
+      <div class="sub" style="text-transform:none;">Hasil Kuis</div>
+      <div class="score-big" id="result-score">0</div>
+      <div class="score-sub" id="result-detail">0 dari 20 jawaban benar</div>
+      <div class="identity-row">
+        <div>Nama: <b id="result-nama"></b></div>
+        <div>Kelas: <b id="result-kelas"></b></div>
+      </div>
+    </div>
+    <table class="review" id="review-table">
+      <thead>
+        <tr><th style="width:34px;">No</th><th>Jawabanmu</th><th>Kunci</th><th style="width:70px;">Status</th></tr>
+      </thead>
+      <tbody id="review-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    passage: "Sampah plastik menjadi salah satu ancaman terbesar bagi ekosistem laut. Setiap tahun, jutaan ton plastik dibuang ke lautan, baik dari aktivitas rumah tangga maupun industri. Plastik yang terurai membutuhkan waktu ratusan tahun, sehingga partikel-partikelnya, yang dikenal sebagai mikroplastik, dapat bertahan lama di dalam air. Mikroplastik ini sering termakan oleh biota laut, seperti ikan dan kerang, yang pada akhirnya dapat berpindah ke tubuh manusia melalui rantai makanan. Oleh karena itu, pengurangan penggunaan plastik sekali pakai menjadi langkah penting untuk menjaga kelestarian laut.",
+    text: "Gagasan utama paragraf tersebut adalah ...",
+    options: ["Plastik sulit terurai di lautan", "Sampah plastik mengancam ekosistem laut dan rantai makanan", "Mikroplastik hanya ditemukan pada ikan", "Industri adalah penyebab utama sampah laut"],
+    answer: 1
+  },
+  {
+    passage: null,
+    text: "Makna kata \"biota\" dalam paragraf tersebut adalah ...",
+    options: ["Benda mati yang ada di laut", "Seluruh makhluk hidup di suatu tempat", "Jenis plastik tertentu", "Zat kimia berbahaya"],
+    answer: 1
+  },
+  {
+    passage: null,
+    text: "Simpulan yang tepat berdasarkan paragraf tersebut adalah ...",
+    options: ["Manusia tidak terpengaruh oleh sampah plastik di laut", "Mikroplastik dapat memengaruhi manusia melalui makanan laut", "Sampah plastik hanya berasal dari rumah tangga", "Plastik sekali pakai aman digunakan"],
+    answer: 1
+  },
+  {
+    passage: "Kertas pertama kali ditemukan oleh Cai Lun, seorang pejabat istana pada masa Dinasti Han di Tiongkok, sekitar tahun 105 Masehi. Sebelum penemuan ini, manusia menulis pada media seperti daun lontar, kulit binatang, atau lempengan tanah liat yang sulit dibuat dan mahal. Cai Lun mengembangkan metode pembuatan kertas dari serat bambu, kulit kayu, dan kain bekas yang direndam, dihaluskan, lalu dicetak menjadi lembaran tipis. Penemuan tersebut kemudian menyebar ke berbagai wilayah dunia melalui jalur perdagangan dan memengaruhi perkembangan ilmu pengetahuan secara signifikan.",
+    text: "Tokoh yang disebutkan dalam paragraf tersebut berperan sebagai ...",
+    options: ["Pedagang kertas dari Eropa", "Penemu metode pembuatan kertas", "Penulis naskah kuno", "Pembuat lempengan tanah liat"],
+    answer: 1
+  },
+  {
+    passage: null,
+    text: "Sebelum kertas ditemukan, media tulis yang disebutkan dalam paragraf adalah ...",
+    options: ["Kain sutra dan kaca", "Daun lontar, kulit binatang, dan lempengan tanah liat", "Batu dan logam", "Kertas daur ulang"],
+    answer: 1
+  },
+  {
+    passage: null,
+    text: "Kata \"signifikan\" pada paragraf tersebut paling dekat maknanya dengan ...",
+    options: ["Sederhana", "Berarti atau penting", "Singkat", "Meragukan"],
+    answer: 1
+  },
+  {
+    text: "Kalimat berikut yang menggunakan ejaan baku adalah ...",
+    options: ["Kami akan meng-analisa data tersebut.", "Kami akan menganalisis data tersebut.", "Kami akan menganalisa data tersebut.", "Kami akan meng analisis data tersebut."],
+    answer: 1
+  },
+  {
+    text: "Kata baku yang tepat untuk melengkapi kalimat \"Ia sedang ... surat lamaran kerja.\" adalah ...",
+    options: ["Membikin", "Membuat", "Bikin", "Nggawe"],
+    answer: 1
+  },
+  {
+    text: "Penulisan kata depan yang tepat terdapat pada kalimat ...",
+    options: ["Buku itu ada di atas meja.", "Buku itu ada diatas meja.", "Buku itu ada di-atas meja.", "Buku itu ada Diatas meja."],
+    answer: 0
+  },
+  {
+    text: "Kalimat efektif ditunjukkan oleh ...",
+    options: ["Banyak para siswa-siswa yang hadir dalam acara itu.", "Para siswa hadir dalam acara itu.", "Banyak siswa-siswa hadir dalam acara itu.", "Para siswa-siswa banyak yang hadir dalam acara itu."],
+    answer: 1
+  },
+  {
+    text: "Konjungsi yang tepat untuk melengkapi kalimat \"Dia belajar dengan giat, ... nilainya tetap kurang memuaskan.\" adalah ...",
+    options: ["karena", "sehingga", "tetapi", "dan"],
+    answer: 2
+  },
+  {
+    text: "Makna kias pada ungkapan \"buah tangan\" adalah ...",
+    options: ["Buah yang dipetik dengan tangan", "Oleh-oleh", "Hasil kerja tangan", "Buah-buahan segar"],
+    answer: 1
+  },
+  {
+    text: "Kalimat yang mengandung majas personifikasi adalah ...",
+    options: ["Wajahnya pucat seperti kertas.", "Angin berbisik lembut di telinga.", "Dia secepat kilat berlari.", "Suaranya menggelegar seperti petir."],
+    answer: 1
+  },
+  {
+    text: "Jenis teks yang bertujuan meyakinkan pembaca dengan argumen dan fakta disebut teks ...",
+    options: ["Narasi", "Deskripsi", "Eksposisi atau argumentasi", "Prosedur"],
+    answer: 2
+  },
+  {
+    text: "Struktur teks prosedur yang tepat adalah ...",
+    options: ["Orientasi - Komplikasi - Resolusi", "Tujuan - Alat dan Bahan - Langkah-langkah", "Pernyataan Umum - Deskripsi Bagian", "Abstrak - Orientasi - Krisis"],
+    answer: 1
+  },
+  {
+    text: "Penulisan huruf kapital yang tepat terdapat pada kalimat ...",
+    options: ["Ayah pergi ke Jakarta bulan depan.", "ayah pergi ke jakarta bulan Depan.", "Ayah pergi ke jakarta Bulan depan.", "Ayah Pergi ke Jakarta Bulan Depan."],
+    answer: 0
+  },
+  {
+    text: "Kata \"mereka\" dalam kalimat \"Mereka sedang membersihkan taman kota.\" termasuk jenis kata ...",
+    options: ["Kata benda", "Kata ganti orang", "Kata kerja", "Kata sifat"],
+    answer: 1
+  },
+  {
+    text: "Sinonim kata \"efisien\" adalah ...",
+    options: ["Boros", "Hemat atau berdaya guna", "Lambat", "Rumit"],
+    answer: 1
+  },
+  {
+    text: "Antonim kata \"optimis\" adalah ...",
+    options: ["Yakin", "Pesimis", "Percaya diri", "Berani"],
+    answer: 1
+  },
+  {
+    text: "Penulisan tanda baca yang tepat terdapat pada kalimat ...",
+    options: ["Ibu membeli, gula, telur, dan tepung.", "Ibu membeli gula, telur, dan tepung.", "Ibu membeli gula telur dan tepung.", "Ibu membeli gula, telur dan, tepung."],
+    answer: 1
+  }
+];
+
+const LETTERS = ["A","B","C","D"];
+let currentName = "";
+let currentKelas = "";
+let answers = new Array(QUESTIONS.length).fill(null);
+
+const el = (id) => document.getElementById(id);
+const show = (id) => el(id).classList.remove("hidden");
+const hide = (id) => el(id).classList.add("hidden");
+
+function normalizeKey(name){
+  return "tka-bindo-hasil:" + name.trim().toLowerCase().replace(/\s+/g," ");
+}
+
+async function init(){
+  hide("loading");
+  show("screen-identity");
+}
+
+el("btn-start") && el("btn-start").addEventListener("click", async () => {
+  const nama = el("inp-nama").value.trim();
+  const kelas = el("inp-kelas").value.trim();
+  const warnBox = el("identity-warn");
+  warnBox.innerHTML = "";
+
+  if(!nama || !kelas){
+    warnBox.innerHTML = '<div class="warn">Nama dan kelas wajib diisi sebelum memulai.</div>';
+    return;
+  }
+
+  const key = normalizeKey(nama);
+  let existing = null;
+  try{
+    const res = await window.storage.get(key, true);
+    existing = res ? JSON.parse(res.value) : null;
+  }catch(e){
+    existing = null;
+  }
+
+  if(existing){
+    el("locked-detail").innerHTML =
+      "Nama <b>" + escapeHtml(existing.nama) + "</b> (Kelas " + escapeHtml(existing.kelas) + ") tercatat sudah mengerjakan kuis ini dengan skor <b>" + existing.skor + "</b> (" + existing.benar + " dari " + existing.total + " benar).";
+    hide("screen-identity");
+    show("screen-locked");
+    return;
+  }
+
+  currentName = nama;
+  currentKelas = kelas;
+  renderQuiz();
+  hide("screen-identity");
+  show("screen-quiz");
+});
+
+el("btn-back") && el("btn-back").addEventListener("click", () => {
+  hide("screen-locked");
+  el("identity-warn").innerHTML = "";
+  show("screen-identity");
+});
+
+function escapeHtml(str){
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function renderQuiz(){
+  const container = el("questions-container");
+  container.innerHTML = "";
+  el("progress-name").textContent = currentName;
+
+  QUESTIONS.forEach((q, qi) => {
+    const card = document.createElement("div");
+    card.className = "question";
+
+    let html = "";
+    if(q.passage){
+      html += '<div class="passage">' + escapeHtml(q.passage) + '</div>';
+    }
+    html += '<div class="qhead"><div class="qnum">' + (qi+1) + '</div><div class="qtext">' + escapeHtml(q.text) + '</div></div>';
+    html += '<div class="options">';
+    q.options.forEach((opt, oi) => {
+      html += '<label class="option" data-qi="'+qi+'" data-oi="'+oi+'">' +
+        '<span class="letter">'+LETTERS[oi]+'</span>' +
+        '<input type="radio" name="q'+qi+'" value="'+oi+'" style="display:none;">' +
+        '<span>'+escapeHtml(opt)+'</span></label>';
+    });
+    html += '</div>';
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+
+  container.querySelectorAll(".option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      const qi = parseInt(opt.dataset.qi, 10);
+      const oi = parseInt(opt.dataset.oi, 10);
+      answers[qi] = oi;
+      const parent = opt.closest(".options");
+      parent.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
+      updateProgress();
+    });
+  });
+
+  updateProgress();
+}
+
+function updateProgress(){
+  const answered = answers.filter(a => a !== null).length;
+  const pct = Math.round((answered / QUESTIONS.length) * 100);
+  el("progress-fill").style.width = pct + "%";
+  el("progress-text").textContent = answered + " dari " + QUESTIONS.length + " dijawab";
+}
+
+el("btn-submit").addEventListener("click", async () => {
+  const answered = answers.filter(a => a !== null).length;
+  if(answered < QUESTIONS.length){
+    el("submit-note").textContent = "Masih ada " + (QUESTIONS.length - answered) + " soal yang belum dijawab. Kamu tetap bisa mengumpulkan, soal kosong dihitung salah.";
+    if(!el("btn-submit").dataset.confirming){
+      el("btn-submit").dataset.confirming = "1";
+      el("btn-submit").textContent = "Yakin, Kumpulkan Sekarang";
+      return;
+    }
+  }
+
+  let benar = 0;
+  QUESTIONS.forEach((q, qi) => {
+    if(answers[qi] === q.answer) benar++;
+  });
+  const skor = Math.round((benar / QUESTIONS.length) * 100);
+
+  const record = {
+    nama: currentName,
+    kelas: currentKelas,
+    benar: benar,
+    total: QUESTIONS.length,
+    skor: skor,
+    waktu: new Date().toISOString()
+  };
+
+  try{
+    await window.storage.set(normalizeKey(currentName), JSON.stringify(record), true);
+  }catch(e){
+    console.error("Gagal menyimpan hasil:", e);
+  }
+
+  renderResult(record);
+  hide("screen-quiz");
+  show("screen-result");
+});
+
+function renderResult(record){
+  el("result-score").textContent = record.skor;
+  el("result-detail").textContent = record.benar + " dari " + record.total + " jawaban benar";
+  el("result-nama").textContent = record.nama;
+  el("result-kelas").textContent = record.kelas;
+
+  const body = el("review-body");
+  body.innerHTML = "";
+  QUESTIONS.forEach((q, qi) => {
+    const userAns = answers[qi];
+    const isCorrect = userAns === q.answer;
+    const row = document.createElement("tr");
+    row.innerHTML =
+      "<td>"+(qi+1)+"</td>" +
+      "<td>"+(userAns === null ? "-" : LETTERS[userAns]+". "+escapeHtml(q.options[userAns]))+"</td>" +
+      "<td>"+LETTERS[q.answer]+". "+escapeHtml(q.options[q.answer])+"</td>" +
+      "<td><span class='tag "+(isCorrect ? "ok" : "no")+"'>"+(isCorrect ? "Benar" : "Salah")+"</span></td>";
+    body.appendChild(row);
+  });
+}
+
+init();
+</script>
+</body>
+</html>
